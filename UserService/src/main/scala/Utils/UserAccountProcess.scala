@@ -83,10 +83,10 @@ case object UserAccountProcess {
         userID <- IO(UUID.randomUUID().toString)
 
         //Check username uniqueness
-        _ <- IO(logger.info(s"[createUser] 检查用户ID的唯一性: ${username}"))
-        isUnique <- checkUserIDUniqueness(username)
+        _ <- IO(logger.info(s"[createUser] 检查用户名的唯一性: ${username}"))
+        isUnique <- checkUsernameUniqueness(username)
         _ <- if (!isUnique) {
-          IO(logger.error(s"[createUser] 生成的用户ID ${username} 已存在，将抛出异常")) >>
+          IO(logger.error(s"[createUser] 使用的用户名 ${username} 已存在，将抛出异常")) >>
             IO.raiseError(new IllegalStateException(s"用户名 ${username} 被占用，请更换用户名"))
         } else IO.unit
 
